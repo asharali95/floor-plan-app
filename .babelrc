@@ -1,8 +1,13 @@
 {
   "plugins": [
     "transform-object-rest-spread",
-    "import-glob"
+    "import-glob",
+    "transform-class-properties",
+    ["transform-runtime", {
+      "regenerator": true
+    }]
   ],
+    "presets": [ "es2015", "stage-0" ],
   "env": {
     "commonjs": {
       "presets": ["env", "react"]

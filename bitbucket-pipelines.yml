@@ -1,0 +1,31 @@
+pipelines:
+  # branches:
+  #   main:
+  #     - step:
+  #         name: Build and test app
+  #         image: node:12.22.12
+  #         script:
+  #           - npm install
+  #           - npm run build
+  custom:
+    production:
+      - step:
+          name: Building app
+          image: node:12.22.12
+          script:
+            - npm install
+            - npm run build
+          artifacts:
+            - demo/dist/**
+      - step:
+          name: Deploying app to s3
+          deployment: Production
+          script:
+            - pipe: atlassian/aws-s3-deploy:0.2.4
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                S3_BUCKET: $S3_BUCKET
+                LOCAL_PATH: "demo/dist" 
+
